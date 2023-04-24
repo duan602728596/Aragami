@@ -5,7 +5,7 @@ import json
 import requests
 import urllib3
 import certifi
-from src.api.utils import detail_params, post_params, USER_AGENT
+from src.api.utils import detail_params, post_params, live_params, USER_AGENT
 
 
 # 请求ttwid cookie
@@ -52,5 +52,20 @@ def request_post(sec_user_id: str, max_cursor: int, cookie: str):
         'cookie': cookie,
     }
     res = manager.request('GET', 'https://www.douyin.com/aweme/v1/web/aweme/post/?' + params)
+
+    return json.loads(res.data)
+
+
+# 请求直播的信息
+def request_live_enter(live_id: str, cookie: str):
+    params: str = live_params(live_id)
+    manager = urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=certifi.where())
+    manager.headers = {
+        'Referer': 'https://live.douyin.com/',
+        'Host': 'live.douyin.com',
+        'User-Agent': USER_AGENT,
+        'cookie': cookie,
+    }
+    res = manager.request('GET', 'https://live.douyin.com/webcast/room/web/enter/?' + params)
 
     return json.loads(res.data)

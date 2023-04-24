@@ -109,3 +109,16 @@ def post_params(sec_user_id: str, max_cursor: int) -> str:
     search_params['X-Bogus'] = sign(parse.urlencode(search_params), USER_AGENT)
 
     return parse.urlencode(search_params)
+
+
+# 创建live params
+def live_params(live_id: str) -> str:
+    search_params = {
+        'aid': '6383',
+        'device_platform': 'web',
+        'web_rid': live_id,
+        'msToken': random_string(128),
+    }
+    search_params['X-Bogus'] = sign(parse.urlencode(search_params), USER_AGENT)
+
+    return parse.urlencode(search_params)

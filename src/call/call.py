@@ -1,4 +1,4 @@
-from src.api.api import request_ttwid_cookie, request_detail, request_post
+from src.api.api import request_ttwid_cookie, request_detail, request_post, request_live_enter
 from src.api.utils import random_string
 
 
@@ -22,3 +22,8 @@ def detail(aweme_id: str):
 # 请求user的信息
 def post(sec_user_id: str, max_cursor: int):
     return request_post(sec_user_id, max_cursor, get_cookie())
+
+
+# 请求直播的信息
+def live_enter(live_id: str):
+    return request_live_enter(live_id, get_cookie())
