@@ -1,3 +1,4 @@
+certifi>=2022.12.07
 pyexecjs>=1.5.1
 requests>=2.28.1
 urllib3>=1.26.12

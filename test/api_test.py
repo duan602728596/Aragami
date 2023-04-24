@@ -13,7 +13,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(isinstance(token, str), True)
 
     def test_detail_params(self):
-        params = detail_params("7141964711570066722")
+        params = detail_params('7141964711570066722')
         self.assertEqual(isinstance(params, str), True)
 
 
