@@ -3,8 +3,8 @@
 """
 from os import path
 import random
+from urllib.parse import urlencode
 import execjs
-from urllib import parse
 
 # 加载js文件
 with open(path.dirname(__file__) + '/Signer.js', 'r', encoding='utf-8') as f:
@@ -65,9 +65,9 @@ def detail_params(aweme_id: str) -> str:
         'msToken': random_string(128),
         '_signature': '_' + random_string(20)
     }
-    search_params['X-Bogus'] = sign(parse.urlencode(search_params), USER_AGENT)
+    search_params['X-Bogus'] = sign(urlencode(search_params), USER_AGENT)
 
-    return parse.urlencode(search_params)
+    return urlencode(search_params)
 
 
 # 创建post params
@@ -106,9 +106,9 @@ def post_params(sec_user_id: str, max_cursor: int) -> str:
         'webid': random_number(30),
         'msToken': random_string(128),
     }
-    search_params['X-Bogus'] = sign(parse.urlencode(search_params), USER_AGENT)
+    search_params['X-Bogus'] = sign(urlencode(search_params), USER_AGENT)
 
-    return parse.urlencode(search_params)
+    return urlencode(search_params)
 
 
 # 创建live params
@@ -119,6 +119,6 @@ def live_params(live_id: str) -> str:
         'web_rid': live_id,
         'msToken': random_string(128),
     }
-    search_params['X-Bogus'] = sign(parse.urlencode(search_params), USER_AGENT)
+    search_params['X-Bogus'] = sign(urlencode(search_params), USER_AGENT)
 
-    return parse.urlencode(search_params)
+    return urlencode(search_params)
