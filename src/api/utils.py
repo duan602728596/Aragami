@@ -1,6 +1,16 @@
+"""
+请求API时使用的一些通用方法
+"""
+from os import path
 import random
+import execjs
 from urllib import parse
-from src.singer.singer import sign
+
+# 加载js文件
+with open(path.dirname(__file__) + '/Signer.js', 'r', encoding='utf-8') as f:
+    SignerJsText = f.read()
+
+SignerJs = execjs.compile(SignerJsText)
 
 CHARACTERS: str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 NUMBER: str = '1234567890'
@@ -8,10 +18,17 @@ USER_AGENT: str = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/5
                   'Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.52'
 
 
+# 计算X-Bogus
+def sign(query_string: str, user_agent: str) -> str:
+    return SignerJs.call('sign', query_string, user_agent)
+
+
+# 随机字符串
 def random_string(length: int) -> str:
     return ''.join(random.choice(CHARACTERS) for _ in range(length))
 
 
+# 随机数字字符串
 def random_number(length: int) -> str:
     return ''.join(random.choice(NUMBER) for _ in range(length))
 
