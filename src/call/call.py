@@ -1,4 +1,4 @@
-from src.api.api import request_ttwid_cookie, request_detail
+from src.api.api import request_ttwid_cookie, request_detail, request_post
 from src.api.utils import random_string
 
 
@@ -14,5 +14,9 @@ def get_cookie() -> str:
     ))
 
 
-def detail(id: str):
-    return request_detail(id, get_cookie())
+def detail(aweme_id: str):
+    return request_detail(aweme_id, get_cookie())
+
+
+def post(sec_user_id: str, max_cursor: int):
+    return request_post(sec_user_id, max_cursor, get_cookie())
