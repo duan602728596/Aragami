@@ -9,7 +9,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(isinstance(res, str), True)
 
     def test_share_url(self):
-        res = request_share_url('https://v.douyin.com/kt5s7j4/')
+        res = request_share_url('https://v.douyin.com/kt5s7j4/', '')
         self.assertEqual(isinstance(res, str), True)
 
     def test_ms_token(self):
