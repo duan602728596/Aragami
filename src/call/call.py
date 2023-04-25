@@ -54,7 +54,7 @@ def call_api(url: str, **kwargs):
     if not parse_result:
         parse_result = parse(url)
 
-    max_cursor = kwargs.get('max_cursor')
+    max_cursor = kwargs.get('max_cursor') or int(time.time() * 1_000)
 
     if not parse_result:
         return None
@@ -63,7 +63,7 @@ def call_api(url: str, **kwargs):
         return detail(parse_result['id'])
 
     elif parse_result['type'] == 'user':
-        return post(parse_result['id'], max_cursor or int(time.time() * 1_000))
+        return post(parse_result['id'], max_cursor)
 
 
 # 输入直播url，返回对应的信息
