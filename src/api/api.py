@@ -2,8 +2,8 @@
 请求抖音的相关API
 """
 import json
-import requests
 import urllib3
+import requests
 import certifi
 from src.api.utils import detail_params, post_params, live_params, USER_AGENT
 
@@ -21,7 +21,7 @@ def request_ttwid_cookie() -> str:
         },
         'cbUrlProtocol': 'https',
         'union': True,
-    }, verify=False)
+    }, verify=certifi.where())
 
     return res.headers['Set-Cookie'] or ''
 
