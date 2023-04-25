@@ -7,5 +7,6 @@ pnpm-lock.yaml
 .idea
 .DS_Store
 test/_trial_temp
+_trial_temp*
 __pycache__
 venv
