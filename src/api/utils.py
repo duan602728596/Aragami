@@ -2,8 +2,8 @@
 请求API时使用的一些通用方法
 """
 from os import path
-import random
 from urllib.parse import urlencode
+import random
 import execjs
 
 # 加载js文件
