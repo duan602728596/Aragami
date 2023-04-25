@@ -1,11 +1,15 @@
 import unittest
-from src.api.api import request_ttwid_cookie
+from src.api.api import request_ttwid_cookie, request_share_url
 from src.api.utils import random_string, detail_params
 
 
 class ApiTest(unittest.TestCase):
     def test_ttwid_cookie(self):
         res = request_ttwid_cookie()
+        self.assertEqual(isinstance(res, str), True)
+
+    def test_share_url(self):
+        res = request_share_url('https://v.douyin.com/kt5s7j4/')
         self.assertEqual(isinstance(res, str), True)
 
     def test_ms_token(self):

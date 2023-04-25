@@ -80,3 +80,14 @@ def request_live_enter(live_id: str, cookie: str):
         return json.loads(res.data)
     except json.decoder.JSONDecodeError:
         return None
+
+
+# 请求分享链接
+def request_share_url(url: str, cookie: str):
+    res = requests.get(url, headers={
+        'Host': 'v.douyin.com',
+        'User-Agent': USER_AGENT,
+        'cookie': cookie,
+    }, verify=certify_pem, allow_redirects=False)
+
+    return res.text

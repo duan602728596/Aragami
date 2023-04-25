@@ -35,6 +35,12 @@ class CallTest(unittest.TestCase):
             call_api('https://www.douyin.com/user/MS4wLjABAAAAc6-xMO2J77mP_3h_pOdPT-47qE0cywiTLB7PF4csqPM'))
         self.post_assert(call_api('MS4wLjABAAAAc6-xMO2J77mP_3h_pOdPT-47qE0cywiTLB7PF4csqPM'))
 
+    def test_call_api_share(self):
+        self.detail_assert(call_api('https://v.douyin.com/kt5s7j4/'))
+        data = call_api('https://v.douyin.com/StwKB7s/')
+        self.assertEqual(data['aweme_detail']['desc'], '🌃🍂。#逆光拍照  #拉紧手跟我走')
+        self.post_assert(call_api('https://v.douyin.com/kG3Cu1b/'))
+
     def test_call_live_api(self):
         self.call_live_api_assert('https://live.douyin.com/9409272172')
         self.call_live_api_assert('9409272172')

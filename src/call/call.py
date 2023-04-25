@@ -1,9 +1,10 @@
 import re
 import time
 from urllib.parse import urlparse
-from src.api.api import request_ttwid_cookie, request_detail, request_post, request_live_enter
+from pyquery import PyQuery as pq
+from src.api.api import request_ttwid_cookie, request_detail, request_post, request_live_enter, request_share_url
 from src.api.utils import random_string
-from src.call.parser import parse
+from src.call.parser import parse, share_parse
 
 
 # 生成cookie
@@ -33,9 +34,26 @@ def live_enter(live_id: str):
     return request_live_enter(live_id, get_cookie())
 
 
+# 请求分享链接
+def share_url(url: str):
+    return request_share_url(url, get_cookie())
+
+
 # 输入url，返回对应的信息
 def call_api(url: str, **kwargs):
-    parse_result = parse(url)
+    url_parse_result = urlparse(url)
+    parse_result = None
+
+    # 处理分享链接
+    if url_parse_result.scheme == 'http' or url_parse_result.scheme == 'https':
+        if re.search(r'v\.douyin\.com', url_parse_result.netloc):
+            share_res = share_url(url)
+            pq_html = pq(share_res)
+            parse_result = share_parse(pq_html('a').attr('href'))
+
+    if not parse_result:
+        parse_result = parse(url)
+
     max_cursor = kwargs.get('max_cursor')
 
     if not parse_result:
