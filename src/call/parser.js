@@ -30,7 +30,7 @@ function douyinShareUserParse(pathname) {
 
   if (typeof matchResult === 'object') {
     return {
-     type: DouyinUrlType.User,
+      type: DouyinUrlType.User,
       id: matchResult.params.userId
     };
   }
