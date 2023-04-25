@@ -38,7 +38,10 @@ def request_detail(aweme_id: str, cookie: str):
     }
     res = manager.request('GET', 'https://www.douyin.com/aweme/v1/web/aweme/detail/?' + params)
 
-    return json.loads(res.data)
+    try:
+        return json.loads(res.data)
+    except json.decoder.JSONDecodeError:
+        return None
 
 
 # 请求user的信息
@@ -53,7 +56,10 @@ def request_post(sec_user_id: str, max_cursor: int, cookie: str):
     }
     res = manager.request('GET', 'https://www.douyin.com/aweme/v1/web/aweme/post/?' + params)
 
-    return json.loads(res.data)
+    try:
+        return json.loads(res.data)
+    except json.decoder.JSONDecodeError:
+        return None
 
 
 # 请求直播的信息
@@ -68,4 +74,7 @@ def request_live_enter(live_id: str, cookie: str):
     }
     res = manager.request('GET', 'https://live.douyin.com/webcast/room/web/enter/?' + params)
 
-    return json.loads(res.data)
+    try:
+        return json.loads(res.data)
+    except json.decoder.JSONDecodeError:
+        return None
