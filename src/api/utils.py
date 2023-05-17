@@ -8,7 +8,7 @@ import execjs
 
 # 加载js文件
 with open(path.dirname(__file__) + '/Signer.js', 'r', encoding='utf-8') as f:
-    SignerJsText = f.read()
+    SignerJsText: str = f.read()
 
 SignerJs = execjs.compile(SignerJsText)
 

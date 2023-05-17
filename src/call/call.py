@@ -20,27 +20,27 @@ def get_cookie() -> str:
 
 
 # 请求video或note的信息
-def detail(aweme_id: str):
+def detail(aweme_id: str) -> map or None:
     return request_detail(aweme_id, get_cookie())
 
 
 # 请求user的信息
-def post(sec_user_id: str, max_cursor: int):
+def post(sec_user_id: str, max_cursor: int) -> map or None:
     return request_post(sec_user_id, max_cursor, get_cookie())
 
 
 # 请求直播的信息
-def live_enter(live_id: str):
+def live_enter(live_id: str) -> map or None:
     return request_live_enter(live_id, get_cookie())
 
 
 # 请求分享链接
-def share_url(url: str):
+def share_url(url: str) -> str:
     return request_share_url(url, get_cookie())
 
 
 # 输入url，返回对应的信息
-def call_api(url: str, **kwargs):
+def call_api(url: str, **kwargs) -> map or None:
     url_parse_result = urlparse(url)
     parse_result = None
 
@@ -67,7 +67,7 @@ def call_api(url: str, **kwargs):
 
 
 # 输入直播url，返回对应的信息
-def call_live_api(url: str):
+def call_live_api(url: str) -> map or None:
     url_parse_result = urlparse(url)
 
     if url_parse_result.scheme == 'http' or url_parse_result.scheme == 'https':
