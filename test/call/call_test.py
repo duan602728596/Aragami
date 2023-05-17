@@ -4,6 +4,19 @@ from src.call.call import detail, post, live_enter, call_api, call_live_api, xia
 
 
 class CallTest(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.xiaohongshu_cookies = [
+            {
+                'name': 'a1',
+                'value': '188293a128980yj74fx4bior8rgkmagz1hvae47ot7350000155545',
+            },
+            {
+                'name': 'web_session',
+                'value': '030037a357fd6b55f18753ef1c234a7be23742',
+            },
+        ]
+
     def detail_assert(self, data):
         self.assertEqual(data['aweme_detail']['desc'], '#闺蜜 #姐妹 陪一个女孩长大 不如陪奶奶说说心里话')
 
@@ -45,8 +58,16 @@ class CallTest(unittest.TestCase):
         self.call_live_api_assert('https://live.douyin.com/9409272172')
         self.call_live_api_assert('9409272172')
 
-    def test_xiaohongshu_header(self):
-        headers = xiaohongshu_header('/api/sns/web/v1/user_posted?num=30&cursor=&user_id=594099df82ec393174227f18')
+    def test_xiaohongshu_get_header(self):
+        headers = xiaohongshu_header('/api/sns/web/v1/user_posted?num=30&cursor=&user_id=594099df82ec393174227f18',
+                                     cookies=self.xiaohongshu_cookies)
+        self.assertEqual(isinstance(headers['X-s'], str), True)
+        self.assertEqual(isinstance(headers['X-t'], int), True)
+
+    def test_xiaohongshu_post_header(self):
+        headers = xiaohongshu_header('/api/sns/web/v1/feed',
+                                     cookies=self.xiaohongshu_cookies,
+                                     json={'source_note_id': '643df5670000000013003189'})
         self.assertEqual(isinstance(headers['X-s'], str), True)
         self.assertEqual(isinstance(headers['X-t'], int), True)
 

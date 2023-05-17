@@ -122,15 +122,27 @@ def xiaohongshu_route_handler(route: Route, request: Request):
 # 计算小红书的header
 def xiaohongshu_header(uri: str, **kwargs):
     with sync_playwright() as playwright:
+        cookies = kwargs.get('cookies')
+        json = kwargs.get('json')
+
         browser = playwright.chromium.launch(
             executable_path=kwargs.get('executable_path') or default_executable_path, headless=True)
-        page = browser.new_page()
+        context = browser.new_context()
+        page = context.new_page()
 
         page.route(xiaohongshu_route_url_callable, xiaohongshu_route_handler)
         page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', timeout=0)
+
+        if cookies:
+            for cookie in cookies:
+                if not 'url' in cookie:
+                    cookie['url'] = 'https://www.xiaohongshu.com/'
+
+            context.add_cookies(cookies)
+
         page.wait_for_load_state('domcontentloaded', timeout=0)
 
-        handle = page.evaluate_handle('(u) => window._webmsxyw(u)', uri)
+        handle = page.evaluate_handle('([u, i]) => window._webmsxyw(u, i)', [uri, json or None])
         result = handle.json_value()
 
         page.close()
