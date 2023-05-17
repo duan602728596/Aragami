@@ -1,10 +1,17 @@
 import re
 import time
+import platform
+from os import path
+from string import Template
 from urllib.parse import urlparse
 from pyquery import PyQuery as pq
+from playwright.sync_api import sync_playwright, Route, Request
 from src.api.api import request_ttwid_cookie, request_detail, request_post, request_live_enter, request_share_url
 from src.api.utils import random_string
 from src.call.parser import parse, share_parse
+
+with open(path.dirname(__file__) + '/XiaoHongShu.js', 'r', encoding='utf-8') as f:
+    xiaohongshu_js_text: str = f.read()
 
 
 # 生成cookie
@@ -81,3 +88,52 @@ def call_live_api(url: str) -> map or None:
     else:
         if re.search(r'^\d+$', url):
             return live_enter(url)
+
+
+# 小红书
+xiaohongshu_response_body: str = Template("""<html>
+<head>
+  <meta charset="utf8">
+</head>
+<body>
+  <script> $scripts </script>
+</body>
+</html>""").substitute(scripts=xiaohongshu_js_text)
+
+if platform.system() == 'Windows':
+    default_executable_path: str = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+elif platform.system() == 'Darwin':
+    default_executable_path: str = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'
+
+
+def xiaohongshu_route_url_callable(url: str) -> bool:
+    url_parse_result = urlparse(url)
+
+    if re.search(r'www\.xiaohongshu\.com', url_parse_result.netloc):
+        return True
+    else:
+        return False
+
+
+def xiaohongshu_route_handler(route: Route, request: Request):
+    route.fulfill(body=xiaohongshu_response_body)
+
+
+# 计算小红书的header
+def xiaohongshu_header(uri: str, **kwargs):
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            executable_path=kwargs.get('executable_path') or default_executable_path, headless=True)
+        page = browser.new_page()
+
+        page.route(xiaohongshu_route_url_callable, xiaohongshu_route_handler)
+        page.goto('https://www.xiaohongshu.com/user/profile/594099df82ec393174227f18', timeout=0)
+        page.wait_for_load_state('domcontentloaded', timeout=0)
+
+        handle = page.evaluate_handle('(u) => window._webmsxyw(u)', uri)
+        result = handle.json_value()
+
+        page.close()
+        browser.close()
+
+        return result

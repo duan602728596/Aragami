@@ -1,6 +1,6 @@
 import unittest
 import time
-from src.call.call import detail, post, live_enter, call_api, call_live_api
+from src.call.call import detail, post, live_enter, call_api, call_live_api, xiaohongshu_header
 
 
 class CallTest(unittest.TestCase):
@@ -44,6 +44,11 @@ class CallTest(unittest.TestCase):
     def test_call_live_api(self):
         self.call_live_api_assert('https://live.douyin.com/9409272172')
         self.call_live_api_assert('9409272172')
+
+    def test_xiaohongshu_header(self):
+        headers = xiaohongshu_header('/api/sns/web/v1/user_posted?num=30&cursor=&user_id=594099df82ec393174227f18')
+        self.assertEqual(isinstance(headers['X-s'], str), True)
+        self.assertEqual(isinstance(headers['X-t'], int), True)
 
 
 if __name__ == '__main__':
