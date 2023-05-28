@@ -1,5 +1,10 @@
 import unittest
-from src.xiaohongshu.call.call import xiaohongshu_header
+import requests
+import certifi
+import json
+from src.xiaohongshu.call.call import xiaohongshu_header, xiaohongshu_cookie
+
+certify_pem: str = certifi.where()
 
 
 class CallTest(unittest.TestCase):
@@ -28,6 +33,29 @@ class CallTest(unittest.TestCase):
                                      json={'source_note_id': '643df5670000000013003189'})
         self.assertEqual(isinstance(headers['X-s'], str), True)
         self.assertEqual(isinstance(headers['X-t'], int), True)
+
+    def test_xiaohongshu_get_cookie(self):
+        cookie = xiaohongshu_cookie()
+        self.assertEqual(isinstance(cookie, list), True)
+
+    def test_xiaohongshu_get_data(self):
+        cookie = xiaohongshu_cookie()
+        cookie_str: str = ''
+
+        for cookie_item in cookie:
+            cookie_str += cookie_item['name'] + '=' + cookie_item['value'] + ';'
+
+        path: str = '/api/sns/web/v1/user_posted?num=30&cursor=&user_id=5c5043f80000000011004a6d'
+        headers = xiaohongshu_header(path, cookies=cookie)
+        res: requests.Response = requests.get('https://edith.xiaohongshu.com' + path,
+                                              verify=certify_pem,
+                                              headers={
+                                                  'origin': 'https://www.xiaohongshu.com',
+                                                  'Referer': 'https://www.xiaohongshu.com/',
+                                                  'Cookie': cookie_str
+                                              }.update(headers))
+        res_json = json.loads(res.text)
+        self.assertEqual(res_json['success'], True)
 
 
 if __name__ == '__main__':
