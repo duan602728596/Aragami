@@ -1,5 +1,5 @@
 import unittest
-from src.call.parser import parse
+from src.douyin.call.parser import parse
 
 
 class ParserTest(unittest.TestCase):

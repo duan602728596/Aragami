@@ -5,7 +5,7 @@ import json
 import urllib3
 import requests
 import certifi
-from src.api.utils import detail_params, post_params, live_params, USER_AGENT
+from src.douyin.api.utils import detail_params, post_params, live_params, USER_AGENT
 
 certify_pem: str = certifi.where()
 

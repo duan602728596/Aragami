@@ -1,6 +1,6 @@
 import unittest
-from src.api.api import request_ttwid_cookie, request_share_url
-from src.api.utils import random_string, detail_params
+from src.douyin.api.api import request_ttwid_cookie, request_share_url
+from src.douyin.api.utils import random_string, detail_params
 
 
 class ApiTest(unittest.TestCase):
