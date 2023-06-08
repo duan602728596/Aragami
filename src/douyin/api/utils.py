@@ -58,8 +58,8 @@ system_info_params = {
     'device_memory': '8',
     'platform': 'PC',
     'downlink': '10',
-     'effective_type': '4g',
-     'round_trip_time': '100',
+    'effective_type': '4g',
+    'round_trip_time': '100',
 }
 
 
