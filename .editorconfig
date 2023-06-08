@@ -8,5 +8,8 @@ charset                  = utf-8
 [*.js]
 indent_size              = 2
 
+[*.mjs]
+indent_size              = 2
+
 [*.md]
 trim_trailing_whitespace = false

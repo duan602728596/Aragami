@@ -1,5 +1,12 @@
 {
+  "scripts": {
+    "server": "node ./src/xiaohongshu/server/index.mjs"
+  },
   "dependencies": {
+    "@koa/router": "^12.0.0",
+    "chrome-remote-interface": "^0.32.2",
+    "koa": "^2.14.2",
+    "koa-body": "^6.0.1",
     "path-to-regexp": "^6.2.1"
   }
 }
