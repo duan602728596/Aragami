@@ -5,7 +5,7 @@ import json
 import urllib3
 import requests
 import certifi
-from src.douyin.api.utils import detail_params, post_params, live_params, USER_AGENT
+from src.douyin.api.utils import detail_params, post_params, live_params, USER_AGENT, DOUYIN_USER_AGENT
 
 certify_pem: str = certifi.where()
 
@@ -35,7 +35,7 @@ def request_detail(aweme_id: str, cookie: str) -> map or None:
     manager.headers = {
         'Referer': 'https://www.douyin.com/video/' + aweme_id,
         'Host': 'www.douyin.com',
-        'User-Agent': USER_AGENT,
+        'User-Agent': DOUYIN_USER_AGENT,
         'cookie': cookie,
     }
     res: urllib3.HTTPResponse = manager.request('GET', 'https://www.douyin.com/aweme/v1/web/aweme/detail/?' + params)
@@ -53,7 +53,7 @@ def request_post(sec_user_id: str, max_cursor: int, cookie: str) -> map or None:
     manager.headers = {
         'Referer': 'https://www.douyin.com/user/' + sec_user_id,
         'Host': 'www.douyin.com',
-        'User-Agent': USER_AGENT,
+        'User-Agent': DOUYIN_USER_AGENT,
         'cookie': cookie,
     }
     res: urllib3.HTTPResponse = manager.request('GET', 'https://www.douyin.com/aweme/v1/web/aweme/post/?' + params)
